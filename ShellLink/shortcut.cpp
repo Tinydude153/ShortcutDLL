@@ -1,7 +1,5 @@
 #include <ShellLink/shortcut.h>
 
-int main() {}
-
 namespace WindowsShortcut {
 
 ShortcutProperties::~ShortcutProperties() {
@@ -46,9 +44,10 @@ void ShortcutProperties::SetRelativePath(wchar_t* relative_path) {
 
 }
 
-void ShortcutProperties::SetIconLocation(wchar_t* icon_location) {
+void ShortcutProperties::SetIconLocation(wchar_t* location, int* index) {
 
-    this->IconLocation = icon_location;
+    this->IconLocation = location;
+    this->IconIndex = index;
 
 }
 
@@ -78,6 +77,20 @@ Shortcut::~Shortcut() {
     // Delete Shortcut->ShortcutProperties struct.
     delete this->Properties;
 
+}
+
+void Shortcut::SetArguments(const wchar_t* arguments) {
+    if (arguments) this->Properties->SetArguments(arguments);
+}
+
+void Shortcut::SetDescription(const wchar_t* description) {
+    if (description) this->Properties->SetDescription(description);
+}
+
+void Shortcut::SetIconLocation(const wchar_t* location, int index) {}
+
+void Shortcut::SetPath(const wchar_t* path) {
+    if (path) this->Properties->SetPath(path);
 }
 
 bool Shortcut::ValidPath(const wchar_t* path) {

@@ -1,14 +1,5 @@
 #include <ShellLink/shortcut.h>
 
-#include <Windows.h>
-#include <objidl.h>
-#include <objbase.h>
-#include <shobjidl.h>
-#include <shlobj.h>
-#include <iostream>
-#include <conio.h>
-
-
 /*
 int main() {
 
@@ -96,8 +87,39 @@ int main() {
 
 int main() {
 
-    return 0;
+    try {
 
+        WindowsShortcut::Shortcut shortcut;
+        if (!shortcut.CreateShortcut(
+            L"C:\\Intel\\test.lnk",
+            NULL,
+            L"Please don't hate me...",
+            NULL,
+            NULL,
+            NULL
+        )) {
+
+            std::cout << "\nCreateShortcut() failed.";
+            return 0;
+
+        }
+
+        /*
+        if (!shortcut.ResolveShortcut(L"C:\\Users\\MinimaDudus\\Desktop\\test.lnk")) {
+
+            std::cout << "\nResolveShortcut() failed.";
+            return 0;
+
+        }
+        std::wcout << L'\n' << shortcut.Properties->TargetPath;
+        */
+
+    } catch (std::exception& e) {
+        std::cout << "\nException thrown: " << e.what();
+        return 0;
+    }
+
+    return 0;
 }
 
 

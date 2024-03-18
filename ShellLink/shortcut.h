@@ -15,6 +15,7 @@ namespace WindowsShortcut {
 
 struct ShortcutProperties {
 
+    ShortcutProperties() {}
     ~ShortcutProperties();
     wchar_t* TargetPath = 0;
     wchar_t* Description = 0;
@@ -28,11 +29,12 @@ struct ShortcutProperties {
     void SetArguments(wchar_t* arguments);
     void SetWorkingDirectory(wchar_t* working_directory);
     void SetRelativePath(wchar_t* relative_path);
-    void SetIconLocation(wchar_t* icon_location);
+    void SetIconLocation(wchar_t* location, int idex);
 
 };
 
-class Shortcut {
+extern "C" {
+class __declspec( dllexport ) Shortcut {
 
     private:
     bool ValidPath(const wchar_t* path);
@@ -40,7 +42,7 @@ class Shortcut {
     public:
     HRESULT CCI;
     IShellLinkW* ISL;
-    ShortcutProperties* Properties = new ShortcutProperties;
+    ShortcutProperties* Properties = new ShortcutProperties();
     bool resolved = false;
     Shortcut();
     ~Shortcut();
@@ -53,15 +55,27 @@ class Shortcut {
         const wchar_t* RelativePath
     );
     bool ResolveShortcut(const wchar_t* LnkPath);
+
+    // Set/Get Pairs
     wchar_t* GetArguments();
+    void SetArguments(const wchar_t* arguments);
+
     wchar_t* GetDescription();
+    void SetDescription(const wchar_t* description);
+
     wchar_t* GetIconLocation();
     int* GetIconIndex();
+    void SetIconLocation(const wchar_t* location, int index);
+
     wchar_t* GetPath();
+    void SetPath(const wchar_t* path)
+
     wchar_t* GetWorkingDirectory();
+    void SetWorkingDirectory(const wchar_t* working_directory);
     
 };
 
-} // Namespace WindowsShortcut 
+} // End Extern "C"
+} // End Namespace WindowsShortcut 
 
 #endif
